@@ -1,0 +1,26 @@
+{
+  "name": "better-es6-proxies",
+  "version": "0.0.1-alpha",
+  "description": "A small function to wrap objects in an ES6 Proxy class. Supports recursive get/set, read-only attributes, and more.",
+  "author": "Bill Parrott <bill@chimericdream.com>",
+  "homepage": "https://github.com/chimericdream/better-es6-proxies",
+  "scripts": {
+    "test": ""
+  },
+  "main": "src/proxy.js",
+  "repository": "chimericdream/better-es6-proxies",
+  "bugs": {
+    "url": "https://github.com/chimericdream/better-es6-proxies/issues"
+  },
+  "keywords": [
+    "es6",
+    "es2015",
+    "private",
+    "protected",
+    "proxy",
+    "proxies"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT"
+}
