@@ -1,16 +1,16 @@
 {
-  "name": "better-es6-proxies",
+  "name": "proxy-mate",
   "version": "0.1.1",
   "description": "A small function to wrap objects in an ES6 Proxy class. Supports recursive get/set, read-only attributes, and more.",
   "author": "Bill Parrott <bill@chimericdream.com>",
-  "homepage": "https://github.com/chimericdream/better-es6-proxies",
+  "homepage": "https://github.com/chimericdream/proxy-mate",
   "scripts": {
     "test": ""
   },
   "main": "src/proxy.js",
-  "repository": "chimericdream/better-es6-proxies",
+  "repository": "chimericdream/proxy-mate",
   "bugs": {
-    "url": "https://github.com/chimericdream/better-es6-proxies/issues"
+    "url": "https://github.com/chimericdream/proxy-mate/issues"
   },
   "keywords": [
     "es6",
