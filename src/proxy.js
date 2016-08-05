@@ -74,7 +74,7 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = [], 
                     if (isObject(target[member][prop])) {
                         retval = innerProxy(target[member][prop], target.constructor.name, readOnlyMembers.includes(member), `${member}.${prop}`);
                     } else {
-                        retval = target.options[prop];
+                        retval = target[member][prop];
                     }
                 }
             });
