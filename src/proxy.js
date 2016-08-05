@@ -5,6 +5,9 @@ const isObject = obj => obj && typeof obj === 'object';
 function innerProxy(obj, className, readOnly, builtPropName = '') {
     return new Proxy(obj, {
         get: function(target, prop) {
+            if (prop === '__isProxy') {
+                return true;
+            }
             if (prop === 'inspect') {
                 return prop;
             }
@@ -17,7 +20,7 @@ function innerProxy(obj, className, readOnly, builtPropName = '') {
 
             let propname = `${builtPropName}.${prop}`;
             if (prop in target) {
-                if (isObject(target[prop])) {
+                if (isObject(target[prop]) && !target[prop].__isProxy) {
                     return innerProxy(target[prop], className, readOnly, propname);
                 }
                 return target[prop];
@@ -38,9 +41,15 @@ function innerProxy(obj, className, readOnly, builtPropName = '') {
     });
 }
 
-module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = []) {
+module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = [], nonProxiedMembers = []) {
     return new Proxy(obj, {
         get: function(target, prop) {
+            if (nonProxiedMembers.includes(prop)) {
+                return target[prop];
+            }
+            if (prop === '__isProxy') {
+                return true;
+            }
             if (prop === 'inspect') {
                 return prop;
             }
@@ -52,7 +61,7 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = []) 
             }
 
             if (prop in target) {
-                if (isObject(target[prop])) {
+                if (isObject(target[prop]) && !target[prop].__isProxy) {
                     return innerProxy(target[prop], target.constructor.name, readOnlyMembers.includes(prop), prop);
                 }
                 return target[prop];
