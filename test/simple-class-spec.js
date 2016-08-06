@@ -48,6 +48,12 @@ describe('When proxying a simple class', () => {
             expect(simple.data.propA).to.equal('prop a has changed');
         });
 
+        it('should allow existing non-proxied properties to be modified', () => {
+            expect(simple.propC).to.equal('this is prop c');
+            simple.propC = 'prop c has changed';
+            expect(simple.propC).to.equal('prop c has changed');
+        });
+
         it('should allow new properties to be set on the main object', () => {
             expect(simple.data.propE).to.be.undefined;
             expect(simple.propE).to.be.undefined;
