@@ -1,6 +1,6 @@
 {
   "name": "proxy-mate",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A small function to wrap objects in an ES6 Proxy class. Supports recursive get/set, read-only attributes, and more.",
   "author": "Bill Parrott <bill@chimericdream.com>",
   "homepage": "https://github.com/chimericdream/proxy-mate",
