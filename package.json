@@ -5,7 +5,7 @@
   "author": "Bill Parrott <bill@chimericdream.com>",
   "homepage": "https://github.com/chimericdream/proxy-mate",
   "scripts": {
-    "test": ""
+    "test": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "main": "src/proxy.js",
   "repository": "chimericdream/proxy-mate",
@@ -21,6 +21,10 @@
     "proxies"
   ],
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.1"
+  },
   "license": "MIT"
 }
