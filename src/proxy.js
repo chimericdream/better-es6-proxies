@@ -41,12 +41,9 @@ function innerProxy(obj, className, readOnly, builtPropName = '') {
     });
 }
 
-module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = [], nonProxiedMembers = []) {
+module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = []) {
     return new Proxy(obj, {
         get: function(target, prop) {
-            if (nonProxiedMembers.includes(prop)) {
-                return target[prop];
-            }
             if (prop === '__isProxy') {
                 return true;
             }
@@ -71,7 +68,7 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = [], 
             proxiedMembers.forEach((member) => {
                 if (prop in target[member]) {
                     hasreturn = true;
-                    if (isObject(target[member][prop])) {
+                    if (isObject(target[member][prop]) && !target[member][prop].__isProxy) {
                         retval = innerProxy(target[member][prop], target.constructor.name, readOnlyMembers.includes(member), `${member}.${prop}`);
                     } else {
                         retval = target[member][prop];
@@ -88,11 +85,26 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = [], 
             if (readOnlyMembers.includes(prop)) {
                 throw new Error(`${prop} is not a writable property of the ${target.constructor.name} class.`);
             }
+
+            if (target.hasOwnProperty(prop)) {
+                target[prop] = value;
+                return true;
+            }
+
+            let shouldReturn = false;
             proxiedMembers.forEach((member) => {
-                if (prop in target[member] && readOnlyMembers.includes(member)) {
-                    throw new Error(`${prop} is not a writable property of the ${target.constructor.name} class.`);
+                if (prop in target[member]) {
+                    if (readOnlyMembers.includes(member)) {
+                        throw new Error(`${prop} is not a writable property of the ${target.constructor.name} class.`);
+                    }
+                    target[member][prop] = value;
+                    shouldReturn = true;
                 }
             });
+
+            if (shouldReturn) {
+                return true;
+            }
 
             target[prop] = value;
             return true;

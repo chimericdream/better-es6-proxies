@@ -1,11 +1,11 @@
 {
   "name": "proxy-mate",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A small function to wrap objects in an ES6 Proxy class. Supports recursive get/set, read-only attributes, and more.",
   "author": "Bill Parrott <bill@chimericdream.com>",
   "homepage": "https://github.com/chimericdream/proxy-mate",
   "scripts": {
-    "test": ""
+    "test": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "main": "src/proxy.js",
   "repository": "chimericdream/proxy-mate",
@@ -21,6 +21,10 @@
     "proxies"
   ],
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.1"
+  },
   "license": "MIT"
 }
