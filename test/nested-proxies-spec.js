@@ -2,7 +2,6 @@ const proxy = require('../src/proxy');
 const SimpleClass = require('./helpers/simple-class');
 
 const chai = require('chai');
-const sinon = require('sinon');
 
 const should = chai.should;
 const expect = chai.expect;
