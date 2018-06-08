@@ -81,7 +81,7 @@ describe('When proxying a simple class', () => {
             let shouldThrow = function() {
                 simple.data.propA = 'prop a has been changed';
             };
-            expect(shouldThrow).to.throw('propA is not a writable property of the SimpleClass class.');
+            expect(shouldThrow).to.throw('propA is not a writable property of this SimpleClass.');
         });
 
         it('should not allow read-only properties to be modified', () => {
@@ -89,7 +89,7 @@ describe('When proxying a simple class', () => {
             let shouldThrow = function() {
                 simple.propD = 'prop d has been changed';
             };
-            expect(shouldThrow).to.throw('propD is not a writable property of the SimpleClass class.');
+            expect(shouldThrow).to.throw('propD is not a writable property of this SimpleClass.');
         });
     });
 
@@ -103,7 +103,7 @@ describe('When proxying a simple class', () => {
             let shouldThrow = function() {
                 simple.propA = 'prop a has been changed';
             };
-            expect(shouldThrow).to.throw('propA is not a writable property of the SimpleClass class.');
+            expect(shouldThrow).to.throw('propA is not a writable property of this SimpleClass.');
         });
     });
 
@@ -143,14 +143,14 @@ describe('When proxying a simple class', () => {
             hook = captureStream(process.stdout);
             console.log(simple.propA);
             hook.unhook();
-            expect(hook.captured()).to.equal('this is prop a\n');
+            expect(hook.captured()).to.contain('this is prop a');
         });
 
         it('should log proxied properties correctly using console.dir', () => {
             hook = captureStream(process.stdout);
             console.dir(simple.propA);
             hook.unhook();
-            expect(hook.captured()).to.equal('\'this is prop a\'\n');
+            expect(hook.captured()).to.contain('this is prop a');
         });
     });
 });

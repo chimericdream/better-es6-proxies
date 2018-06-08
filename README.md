@@ -1,6 +1,6 @@
 ## ProxyMate
 
-[![Version 0.3.1](https://img.shields.io/badge/version-0.3.1-brightgreen.svg)](https://github.com/chimericdream/proxy-mate) [![Build Status](https://travis-ci.org/chimericdream/proxy-mate.svg?branch=master)](https://travis-ci.org/chimericdream/proxy-mate)
+[![Version 0.4.0](https://img.shields.io/badge/version-0.4.0-brightgreen.svg)](https://github.com/chimericdream/proxy-mate) [![Build Status](https://travis-ci.org/chimericdream/proxy-mate.svg?branch=master)](https://travis-ci.org/chimericdream/proxy-mate)
 
 ### Introduction
 
@@ -60,6 +60,24 @@ class ValueObject {
         return proxy(this, ['data'], ['data']);
     }
 }
+```
+
+You don't have to use ES6 classes, either. Plain objects are ok too!
+
+```javascript
+const getObj = () => ({
+    propA: 'this is prop a',
+    propB: 'this is prop b',
+    nested: {
+        propC: 'this is nested.propC',
+    },
+});
+
+// Make a pure value object by marking everything read-only
+let obj4 = proxy(getObj(), '*');
+obj4.propA = 'prop a is read-only'; // throws exception
+obj4.propB = 'prop b is read-only'; // throws exception
+obj4.nested.propC = 'even nested props are read-only'; // throws exception
 ```
 
 ### License
