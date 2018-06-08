@@ -32,7 +32,7 @@ function innerProxy(obj, className, readOnly, builtPropName = '') {
         set: function(target, prop, value) {
             let propname = `${builtPropName}.${prop}`;
             if (readOnly) {
-                throw new Error(`${propname} is not a writable property of the ${className} class.`);
+                throw new Error(`${propname} is not a writable property of this ${className}.`);
             }
 
             target[prop] = value;
@@ -59,7 +59,8 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = []) 
 
             if (prop in target) {
                 if (isObject(target[prop]) && !target[prop].__isProxy) {
-                    return innerProxy(target[prop], target.constructor.name, readOnlyMembers.includes(prop), prop);
+                    const isReadOnly = readOnlyMembers.includes(prop) || readOnlyMembers === '*';
+                    return innerProxy(target[prop], target.constructor.name, isReadOnly, prop);
                 }
                 return target[prop];
             }
@@ -82,11 +83,14 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = []) 
             return undefined;
         },
         set: function(target, prop, value) {
-            if (readOnlyMembers.includes(prop)) {
-                throw new Error(`${prop} is not a writable property of the ${target.constructor.name} class.`);
+            if (readOnlyMembers !== '*' && readOnlyMembers.includes(prop)) {
+                throw new Error(`${prop} is not a writable property of this ${target.constructor.name}.`);
             }
 
             if (target.hasOwnProperty(prop)) {
+                if (readOnlyMembers === '*') {
+                    throw new Error(`All properties of this ${target.constructor.name} are read-only.`);
+                }
                 target[prop] = value;
                 return true;
             }
@@ -95,7 +99,10 @@ module.exports = function proxy(obj, readOnlyMembers = [], proxiedMembers = []) 
             proxiedMembers.forEach((member) => {
                 if (prop in target[member]) {
                     if (readOnlyMembers.includes(member)) {
-                        throw new Error(`${prop} is not a writable property of the ${target.constructor.name} class.`);
+                        throw new Error(`${prop} is not a writable property of this ${target.constructor.name}.`);
+                    }
+                    if (readOnlyMembers === '*') {
+                        throw new Error(`All properties of this ${target.constructor.name} are read-only.`);
                     }
                     target[member][prop] = value;
                     shouldReturn = true;
