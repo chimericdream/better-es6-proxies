@@ -48,6 +48,19 @@ obj3.propA = 'prop a is read-only'; // throws exception
 obj3.nested.propA = 'prop a of the inner proxy can be modified';
 console.log(obj3.nested.propA); // 'prop a of the inner proxy can be modified'
 console.log(obj3.nested.data.propA); // 'prop a of the inner proxy can be modified'
+
+// Making a pure value object
+const getObj = () => ({
+    propA: 'this is prop a',
+    propB: 'this is prop b',
+    nested: {
+        propC: 'this is nested.propC',
+    },
+});
+let obj4 = proxy(getObj(), '*');
+obj4.propA = 'prop a is read-only'; // throws exception
+obj4.propB = 'prop b is read-only'; // throws exception
+obj4.nested.propC = 'even nested props are read-only'; // throws exception
 ```
 
 Classes can also be proxied automatically in the constructor.
